@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Lista de Libros</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h2>Lista de Libros</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>ISBN</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Iterar sobre la lista de libros -->
+                    <tr th:each="book : ${books}">
+                        <td th:text="${book.title}"></td>
+                        <td th:text="${book.author}"></td>
+                        <td th:text="${book.isbn}"></td>
+                        <td>
+                            <a
+                                th:href="@{/web/books/edit/{id}(id=${book.id})}"
+                                class="btn btn-primary btn-sm"
+                                >Editar</a
+                            >
+                            <a
+                                th:href="@{/web/books/delete/{id}(id=${book.id})}"
+                                class="btn btn-danger btn-sm"
+                                >Eliminar</a
+                            >
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="/web/books/new" class="btn btn-success">Agregar Libro</a>
+        </div>
+    </body>
+</html>

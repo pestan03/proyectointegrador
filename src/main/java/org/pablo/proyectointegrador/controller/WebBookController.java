@@ -1,11 +1,17 @@
 package org.pablo.proyectointegrador.controller;
 
+import java.util.List;
 import org.pablo.proyectointegrador.Model.Book;
 import org.pablo.proyectointegrador.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/web/books")
@@ -60,5 +66,22 @@ public class WebBookController {
   public String deleteBook(@PathVariable String id) {
     bookService.deleteBook(id);
     return "redirect:/web/books";
+  }
+
+  @PostMapping(
+    value = "/save",
+    consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+  )
+  public String saveBook(Book book) {
+    // Lógica para guardar el libro en la base de datos
+    bookService.saveBook(book);
+    return "redirect:/web/books/list";
+  }
+
+  @GetMapping("/list")
+  public String listBooks(Model model) {
+    List<Book> books = bookService.getAllBooks();
+    model.addAttribute("books", books);
+    return "book-list"; // Nombre de la vista Thymeleaf para mostrar la lista de libros
   }
 }
