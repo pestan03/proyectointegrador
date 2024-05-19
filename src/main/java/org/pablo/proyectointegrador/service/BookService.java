@@ -28,4 +28,25 @@ public class BookService {
   public void deleteBook(String id) {
     bookRepository.deleteById(id);
   }
+
+  public void saveOrUpdateBook(Book book) {
+    // Verificar si el libro ya existe por ID
+    if (book.getId() != null && bookRepository.existsById(book.getId())) {
+      // Actualizar el libro existente
+      Book existingBook = bookRepository.findById(book.getId()).orElse(null);
+      if (existingBook != null) {
+        existingBook.setTitle(book.getTitle());
+        existingBook.setAuthor(book.getAuthor());
+        existingBook.setIsbn(book.getIsbn());
+        bookRepository.save(existingBook);
+      }
+    } else {
+      // Guardar nuevo libro
+      bookRepository.save(book);
+    }
+  }
+
+  public Object searchBooksByTitle(String title) {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 }

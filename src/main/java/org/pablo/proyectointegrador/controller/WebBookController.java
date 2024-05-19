@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/web/books")
@@ -21,8 +22,15 @@ public class WebBookController {
   private BookService bookService;
 
   @GetMapping
-  public String getAllBooks(Model model) {
-    model.addAttribute("books", bookService.getAllBooks());
+  public String getAllBooks(
+    Model model,
+    @RequestParam(value = "title", required = false) String title
+  ) {
+    if (title != null && !title.isEmpty()) {
+      model.addAttribute("books", bookService.searchBooksByTitle(title));
+    } else {
+      model.addAttribute("books", bookService.getAllBooks());
+    }
     return "book-list";
   }
 
@@ -33,8 +41,8 @@ public class WebBookController {
   }
 
   @PostMapping
-  public String createBook(@ModelAttribute Book book) {
-    bookService.saveBook(book);
+  public String saveBook(@ModelAttribute Book book) {
+    bookService.saveOrUpdateBook(book);
     return "redirect:/web/books";
   }
 
@@ -44,22 +52,6 @@ public class WebBookController {
       .getBookById(id)
       .ifPresent(book -> model.addAttribute("book", book));
     return "book-form";
-  }
-
-  @PostMapping("/update/{id}")
-  public String updateBook(
-    @PathVariable String id,
-    @ModelAttribute Book bookDetails
-  ) {
-    bookService
-      .getBookById(id)
-      .ifPresent(book -> {
-        book.setTitle(bookDetails.getTitle());
-        book.setAuthor(bookDetails.getAuthor());
-        book.setIsbn(bookDetails.getIsbn());
-        bookService.saveBook(book);
-      });
-    return "redirect:/web/books";
   }
 
   @GetMapping("/delete/{id}")
@@ -72,12 +64,6 @@ public class WebBookController {
     value = "/save",
     consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
   )
-  public String saveBook(Book book) {
-    // Lógica para guardar el libro en la base de datos
-    bookService.saveBook(book);
-    return "redirect:/web/books/list";
-  }
-
   @GetMapping("/list")
   public String listBooks(Model model) {
     List<Book> books = bookService.getAllBooks();
