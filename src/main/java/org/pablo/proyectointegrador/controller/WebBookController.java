@@ -1,10 +1,8 @@
 package org.pablo.proyectointegrador.controller;
 
-import java.util.List;
 import org.pablo.proyectointegrador.Model.Book;
 import org.pablo.proyectointegrador.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,18 +30,21 @@ public class WebBookController {
     return "book-form";
   }
 
-  @PostMapping
-  public String createBook(@ModelAttribute Book book) {
+  @PostMapping("/save")
+  public String saveBook(@ModelAttribute Book book) {
     bookService.saveBook(book);
     return "redirect:/web/books";
   }
 
   @GetMapping("/edit/{id}")
   public String showEditBookForm(@PathVariable String id, Model model) {
-    bookService
+    return bookService
       .getBookById(id)
-      .ifPresent(book -> model.addAttribute("book", book));
-    return "book-form";
+      .map(book -> {
+        model.addAttribute("book", book);
+        return "book-form";
+      })
+      .orElse("redirect:/web/books"); // o mostrar un mensaje de error
   }
 
   @PostMapping("/update/{id}")
@@ -51,37 +52,21 @@ public class WebBookController {
     @PathVariable String id,
     @ModelAttribute Book bookDetails
   ) {
-    bookService
+    return bookService
       .getBookById(id)
-      .ifPresent(book -> {
+      .map(book -> {
         book.setTitle(bookDetails.getTitle());
         book.setAuthor(bookDetails.getAuthor());
         book.setIsbn(bookDetails.getIsbn());
         bookService.saveBook(book);
-      });
-    return "redirect:/web/books";
+        return "redirect:/web/books";
+      })
+      .orElse("redirect:/web/books"); // o mostrar un mensaje de error
   }
 
   @GetMapping("/delete/{id}")
   public String deleteBook(@PathVariable String id) {
     bookService.deleteBook(id);
     return "redirect:/web/books";
-  }
-
-  @PostMapping(
-    value = "/save",
-    consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
-  )
-  public String saveBook(Book book) {
-    // Lógica para guardar el libro en la base de datos
-    bookService.saveBook(book);
-    return "redirect:/web/books/list";
-  }
-
-  @GetMapping("/list")
-  public String listBooks(Model model) {
-    List<Book> books = bookService.getAllBooks();
-    model.addAttribute("books", books);
-    return "book-list"; // Nombre de la vista Thymeleaf para mostrar la lista de libros
   }
 }
