@@ -42,7 +42,7 @@ public class WebBookController {
       .getBookById(id)
       .map(book -> {
         model.addAttribute("book", book);
-        return "book-form";
+        return "edit-book";
       })
       .orElse("redirect:/web/books"); // o mostrar un mensaje de error
   }
