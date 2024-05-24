@@ -2,13 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Formulario de Libro</title>
+    <title>Search Results</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
-
 <!-- Barra de navegación superior -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Library</a>
@@ -29,52 +28,35 @@
 
 <!-- Contenedor principal -->
 <div class="container mt-5">
-    <h2>Formulario de Libro</h2>
-    <form
-            th:object="${book}"
-            th:action="@{/web/books/save}"
-            method="post"
-    >
-        <div class="form-group">
-            <label for="title">Título:</label>
-            <input
-                    type="text"
-                    class="form-control"
-                    id="title"
-                    th:field="*{title}"
-                    required
-            />
-        </div>
-        <div class="form-group">
-            <label for="author">Autor:</label>
-            <input
-                    type="text"
-                    class="form-control"
-                    id="author"
-                    th:field="*{author}"
-                    required
-            />
-        </div>
-        <div class="form-group">
-            <label for="isbn">ISBN:</label>
-            <input
-                    type="text"
-                    class="form-control"
-                    id="isbn"
-                    th:field="*{isbn}"
-                    required
-            />
-        </div>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+    <!-- Formulario de búsqueda -->
+    <form class="form-inline my-2 my-lg-0" th:action="@{/web/books/search}" method="get">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="keyword">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
+
+    <h2>Search Results</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>ISBN</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterar sobre la lista de libros -->
+        <tr th:each="book : ${books}">
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.isbn}"></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <!-- Pie de página -->
 <footer class="footer bg-dark text-white mt-5 p-4 text-center">
     &copy; 2024 Library. All rights reserved.
 </footer>
-</body>
-</html>
-
 </body>
 </html>
