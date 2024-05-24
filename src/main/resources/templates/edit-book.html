@@ -14,7 +14,7 @@
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
     <!-- Inclusión del archivo CSS personalizado -->
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
 <!-- Barra de navegación superior -->
@@ -28,6 +28,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="/web/books/new"
                 >Add New Book</a
+                >
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/web/books/search"
+                >Search Books</a
                 >
             </li>
         </ul>
@@ -45,7 +50,7 @@
             class="mt-4"
     >
         <!-- Campo oculto para el ID del libro -->
-        <input type="hidden" th:field="*{id}" id="id" />
+        <input type="hidden" th:field="*{id}" id="id"/>
         <div class="form-group">
             <label for="title">Title:</label>
             <!-- Campo de entrada para el título -->
