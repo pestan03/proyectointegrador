@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Lista de Libros</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<!-- Barra de navegación superior -->
+<!-- Barra de navegación superior -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Library</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/web/books">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/web/books/new">Add New Book</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/web/books/search">Search Books</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Contenedor principal -->
+<div class="container mt-5">
+    <h2>Lista de Libros</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterar sobre la lista de libros -->
+        <tr th:each="book : ${books}">
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.isbn}"></td>
+            <td>
+                <a
+                        th:href="@{/web/books/edit/{id}(id=${book.id})}"
+                        class="btn btn-primary btn-sm"
+                >Editar</a
+                >
+                <a
+                        th:href="@{/web/books/delete/{id}(id=${book.id})}"
+                        class="btn btn-danger btn-sm"
+                >Eliminar</a
+                >
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/web/books/new" class="btn btn-success">Agregar Libro</a>
+</div>
+
+<!-- Pie de página -->
+<footer class="footer bg-dark text-white mt-5 p-4 text-center">
+    &copy; 2024 Library. All rights reserved.
+</footer>
+</body>
+</html>
