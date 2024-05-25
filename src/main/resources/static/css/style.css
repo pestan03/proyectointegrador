@@ -2,7 +2,9 @@
 
 /* Estilo para el cuerpo de la página */
 body {
-    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Estilo para los encabezados */
@@ -18,9 +20,7 @@ h1 {
 
 /* Estilo para el pie de página */
 .footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    margin-top: auto;
 }
 
 /* Espaciado para los campos de entrada del formulario */
@@ -32,3 +32,52 @@ h1 {
 .btn {
     margin-right: 0.5rem;
 }
+
+.navbar {
+    background-color: black;
+}
+
+.navbar .navbar-brand {
+    color: black;
+}
+
+.navbar .navbar-nav .nav-link {
+    color: black;
+}
+
+.navbar .navbar-nav .nav-link:hover,
+.navbar .navbar-nav .nav-link.active {
+    color: black;
+}
+
+.navbar .navbar-toggler {
+    border-color: black;
+}
+
+.navbar .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Ajustes adicionales para diferentes tamaños de pantalla */
+@media (max-width: 768px) {
+    .navbar .navbar-nav .nav-link {
+        color: #333;
+    }
+
+    .navbar .navbar-nav .nav-link:hover,
+    .navbar .navbar-nav .nav-link.active {
+        color: #555;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+    .table-responsive {
+        margin-bottom: 1.5rem;
+    }
+    footer {
+        height: 50px;
+        line-height: 50px;
+    }
+}
+

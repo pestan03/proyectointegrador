@@ -19,7 +19,7 @@ public class WebBookController {
     @GetMapping
     public String getAllBooks(Model model) {
         model.addAttribute("books", bookService.getAllBooks()); // Obtiene todos los libros y los añade al modelo
-        return "index"; // Devuelve la vista de la lista de libros
+        return "book-list"; // Devuelve la vista de la lista de libros
     }
 
     @GetMapping("/new")
