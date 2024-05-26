@@ -52,12 +52,13 @@ h1 {
 
 .navbar .navbar-nav .nav-link:hover,
 .navbar .navbar-nav .nav-link.active {
-    background-color: #000;
+    background-color: white;
     color: #fff;
 }
 
 .navbar .navbar-toggler {
     border-color: black;
+    color : white;
 }
 
 .navbar .navbar-toggler-icon {
